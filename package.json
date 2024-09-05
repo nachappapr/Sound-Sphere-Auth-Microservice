@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@npticketify/common": "^1.0.3",
+    "@soundspheree/common": "^1.2.3",
     "config": "^3.3.11",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
@@ -8,6 +8,7 @@
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.3.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5",

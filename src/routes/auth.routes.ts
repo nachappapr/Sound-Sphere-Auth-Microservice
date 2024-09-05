@@ -1,3 +1,4 @@
+import { validateResource } from "@soundspheree/common";
 import { Router } from "express";
 import {
   currentUserHandler,
@@ -5,7 +6,6 @@ import {
   signoutHandler,
   signupHandler,
 } from "../controller/auth.controller";
-import { requireAuth, validateResource } from "@npticketify/common";
 import {
   authenticateUserSchema,
   createUserSchema,

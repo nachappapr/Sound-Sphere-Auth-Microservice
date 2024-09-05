@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { BadRequestError } from "@npticketify/common";
+import { BadRequestError } from "@soundspheree/common";
 import { AuthenticateUserInput, CreateUserInput } from "../schema/auth.schema";
 import { buildUser, findUser } from "../service/user.service";
 import jwt from "jsonwebtoken";
@@ -38,11 +38,20 @@ export const signinHandler = async (
       id: existingUser.id,
       email: existingUser.email,
     },
-    process.env.JWT_KEY!
+    process.env.JWT_KEY!,
+    { expiresIn: process.env.JWT_EXPIRATION_IN }
+  );
+  // generate refresh token
+  const userRefreshToken = jwt.sign(
+    { id: existingUser.id, email: existingUser.email },
+    process.env.REFRESH_KEY!,
+    {
+      expiresIn: process.env.REFRESH_EXPIRATION_IN,
+    }
   );
 
   // store it on session object
-  req.session = { jwt: userJwt };
+  req.session = { jwt: userJwt, refreshToken: userRefreshToken };
 
   res.send({
     message: "Login successful",
@@ -76,10 +85,21 @@ export const signupHandler = async (
       id: user.id,
       email: user.email,
     },
-    process.env.JWT_KEY!
+    process.env.JWT_KEY!,
+    { expiresIn: process.env.JWT_EXPIRATION_IN }
   );
+
+  // generate refresh token
+  const userRefreshToken = jwt.sign(
+    { id: user.id, email: user.email },
+    process.env.REFRESH_KEY!,
+    {
+      expiresIn: process.env.REFRESH_EXPIRATION_IN,
+    }
+  );
+
   // store it on session object
-  req.session = { jwt: userJwt };
+  req.session = { jwt: userJwt, refreshToken: userRefreshToken };
 
   res.status(201).send({
     message: "User created",

@@ -1,36 +1,36 @@
-import express from "express";
-import "express-async-errors";
-import { NotFoundError, errorHandler, currentUser } from "@npticketify/common";
-import authRouter from "./routes/auth.routes";
+import { NotFoundError, currentUser, errorHandler } from "@soundspheree/common";
 import cookieSession from "cookie-session";
 import cors from "cors";
-
+import express from "express";
+import "express-async-errors";
+import authRouter from "./routes/auth.routes";
 import { config } from "dotenv";
 config({ path: `.env.${process.env.NODE_ENV}` });
 
-// create express app
+// Create express app
 const app = express();
 app.set("trust proxy", true);
 app.use(express.json());
 app.use(cors());
-// express middleware to handle cookies
+// Express middleware to handle cookies
 app.use(
   cookieSession({
     signed: false,
     secure: process.env.NODE_ENV !== "test",
+    httpOnly: true,
   })
 );
 
-// express middleware to handle current user
+// Express middleware to handle current user
 app.use(currentUser);
 
-// express middleware to handle routes
+// Express middleware to handle routes
 app.use("/api/users", authRouter);
 app.all("*", async () => {
   throw new NotFoundError();
 });
 
-// express middleware to handle errors
+// Express middleware to handle errors
 app.use(errorHandler);
 
 export { app };
