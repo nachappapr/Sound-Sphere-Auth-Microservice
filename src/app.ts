@@ -12,6 +12,7 @@ const app = express();
 app.set("trust proxy", true);
 app.use(express.json());
 app.use(cors());
+
 // Express middleware to handle cookies
 app.use(
   cookieSession({
@@ -20,6 +21,11 @@ app.use(
     httpOnly: true,
   })
 );
+
+// health check
+app.get("/api/users/health", (req, res) => {
+  res.send("OK");
+});
 
 // Express middleware to handle current user
 app.use(currentUser);
