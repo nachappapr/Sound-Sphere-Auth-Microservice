@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@soundspheree/common": "^1.2.3",
+    "@soundspheree/common": "^1.4.0",
     "config": "^3.3.11",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
